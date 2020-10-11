@@ -35,7 +35,7 @@ int main()
 	const string device_id = "/dev/ACM0";
 	int earflag = 0;
     try {
-        cv::VideoCapture cap(device_id);
+        cv::VideoCapture cap(0);
 
         if (!cap.isOpened()) {
             cerr << "Unable to connect to camera" << endl;
