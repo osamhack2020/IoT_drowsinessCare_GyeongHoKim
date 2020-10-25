@@ -6,11 +6,18 @@
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <string>
-
+#include <wiringPi.h>
+#include <softTone.h>
+#include <wiringSerial.h>
+#include <cstdio>
 
 using namespace dlib;
 using namespace std;
 using namespace cv;
+
+const int pinPiezo = 13;
+const int pinPir = 24;
+const int aMelody[9];
 
 //image_window win;
 shape_predictor sp;
@@ -32,8 +39,18 @@ double compute_EAR(std::vector<cv::Point> vec)
 
 int main()
 {
+    int fd;
+    if((fd = serialOpen("/dev/ACM1",9600)) < 0) {
+        std::fprintf(stderr, "Failed to open serial divice: %s\n",sterror(errno));
+        return 1;
+    }
+    wiringPiSetupGpio();
+    pinMode(pinPir, INPUT);
+    softToneCreate(pinPiezo);
+
 	const string device_id = "/dev/ACM0";
 	int earflag = 0;
+
     try {
         cv::VideoCapture cap(0);
 
@@ -89,12 +106,13 @@ int main()
                 double left_ear = compute_EAR(lefteye);
                 
                 //if the avarage eye aspect ratio of lef and right eye less than 0.2, the status is sleeping.
-                if ((right_ear + left_ear) / 2 < 0.2) 
+                if ((right_ear + left_ear) / 2 < 0.2) {
 					earflag = 1;
                     //win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "Sleeping"));
                 /*else
                     win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "Not sleeping"));/*/
-
+                    softToneWrite(pinPiezo, aMelody[0]);
+                }
                 righteye.clear();
                 lefteye.clear();
 
