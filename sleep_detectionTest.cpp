@@ -50,7 +50,7 @@ int main()
         deserialize("../shape_predictor_68_face_landmarks.dat") >> sp;
 
         // Grab and process frames until the main window is closed by the user.
-        while (1) {
+        while (!win.is_closed()) {
             // Grab a frame
             cv::Mat temp;
             if (!cap.read(temp)) {
@@ -62,6 +62,10 @@ int main()
             
             // Detect faces
             std::vector<rectangle> faces = detector(cimg);
+            //cout << "Number of faces detected: " << faces.size() << endl;
+
+            win.clear_overlay();
+            win.set_image(cimg);
             
             // Find the pose of each face.
             if (faces.size() > 0) {
@@ -87,12 +91,14 @@ int main()
                     frameCounter++;
                     if (frameCounter >= 27) {
                         cout << "SLEEP" << endl;
+                        win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "SLEEP"));
                     }
                     else {
                         win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "drowsing"));
                     }
                 }
                 else {
+                    win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "not drowsing"));
                     frameCounter = 0;
                 }
                 righteye.clear();
