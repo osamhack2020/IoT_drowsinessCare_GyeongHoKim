@@ -19,7 +19,15 @@
 
 ## 기술 스택 (Technique Used)
 
+### Drowsing detection
 
+* Real-Time Eye Blink Detection using Facial Landmarks(Tereza Soukupova and Jan ´ Cech외, 2016)의 방법을 따름
+
+![earMethod](./earMethod.png)
+
+### Raspberry GPIO control
+
+사용자에게 가는 알림은 라즈베리파이 GPIO를 사용함.
 
 ## 설치 안내 (Installation Process)
 
@@ -29,6 +37,8 @@ git clone https://github.com/davisking/dlib.git
 cd dlib
 git clone https://github.com/osamhack2020/IoT_drowsinessCare_GyeongHoKim.git .
 ```
+
+## 프로젝트 사용법 (Getting Started)
 
 cmake 빌드
 ``` shell
@@ -40,11 +50,13 @@ cmake --build . --config Release
 프로그램 실행
 `./sleep_detection`
 
-**라즈베리에서 실행할 경우**
+**라즈베리에서 실행할 경우**  
 CMakeLists.txt 파일의 project name을 sleep_detectionForRaspberry로 고쳐야 함.
+또, wiringPi 27번에 해당하는 GPIO 핀에 부저를 연결해야 함.  
 
-## 프로젝트 사용법 (Getting Started)
-
+``` shell
+gpio readall //wiringPi 27번에 해당하는 BCM 넘버를 찾아야 함
+```
 
 
 ## 팀 정보 (Team Information)
