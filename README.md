@@ -62,7 +62,7 @@ cmake --build . --config Release
 CMakeLists.txt 파일의 project name을 sleep_detectionForRaspberry로 고쳐야 함.
 또, wiringPi 27번에 해당하는 GPIO 핀에 부저를 연결해야 함.  
 
-[!pinMap](./img/pinMap.png)
+![pinMap](./img/pinMap.png)
 
 ``` shell
 gpio readall //wiringPi 27번에 해당하는 BCM 넘버를 찾아야 함
