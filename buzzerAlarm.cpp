@@ -1,32 +1,20 @@
-#include <pigpiod_if2.h>
-#include <thread>
-#include <unistd.h>
- 
-using namespace std;
- 
-#define PIN 13
- 
-void play_beep()
+#include <stdio.h>
+#include <wiringPi.h>
+#include <softTone.h>
+const int pinPiezo = 13; //gpio 9번
+const int aMelody[8] = {131,147,165,175,196,220,247,262};
+int main(void)
 {
-   auto instance = pigpio_start(NULL, NULL);
-   set_PWM_frequency(instance, PIN, 2700);
- 
-   // 128/255 = 50% duty
-   set_PWM_dutycycle(instance, PIN, 128);
- 
-   // play beep for 100 milliseconds
-   this_thread::sleep_for(chrono::milliseconds(100));
- 
-   // turn off beep
-   set_PWM_dutycycle(instance, PIN, 0);
- 
-   pigpio_stop(instance);
-}
-
-int main()
-{
+    wiringPiSetupGpio();
+    softToneCreate(pinPiezo);
     while(1) {
-        play_beep();
-        sleep(2);
+        int i;
+        for(i=0;i<8;i++)
+            if(aMelody[i]%2==0) {
+                softToneWrite(pinPiezo,aMelody[i]); delay(1000);
+            }
+        softToneWrite(pinPiezo,0);
+        delay(1000);
     }
+    return 0;
 }
