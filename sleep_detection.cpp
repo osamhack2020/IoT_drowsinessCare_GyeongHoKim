@@ -6,6 +6,10 @@
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <wiringPi.h>
+#include <softTone.h>
+#define PIN_NUM 27 // gpio 16
 
 using namespace dlib;
 using namespace std;
@@ -33,6 +37,10 @@ int main()
 {
     int frameCounter = 0;
     float threshold = 0.2;
+
+    wiringPiSetup();
+    softToneCreate(PIN_NUM);
+
     try {
         cv::VideoCapture cap(0);
 
@@ -87,18 +95,19 @@ int main()
                     frameCounter++;
                     if (frameCounter >= 27) {
                         cout << "SLEEP" << endl;
+                        softToneWrite(PIN_NUM, 262);
                     }
                     else {
-                        win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "drowsing"));
+                        cout << "drowsing" << endl;
+                        softToneWrite(PIN_NUM, 131);
                     }
                 }
                 else {
                     frameCounter = 0;
+                    softToneWrite(PIN_NUM, 0);
                 }
                 righteye.clear();
                 lefteye.clear();
-
-                win.add_overlay(render_face_detections(shape));
 
                 c = (char)waitKey(30);
                 if (c == 27)
