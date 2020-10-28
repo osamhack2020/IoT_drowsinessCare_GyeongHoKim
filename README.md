@@ -1,6 +1,6 @@
 # Team Logo
 
-![logo](./teamLogo.png)
+![logo](./img/teamLogo.png)
 
 ## 팀소개 및 프로잭트 설명 동영상
 
@@ -8,8 +8,8 @@
 
 ## 기능 설계
 
-![hardware](./hardwareBlockDiagram.png)
-![software](./softwareBlockDiagram.png)
+![hardware](./img/hardwareBlockDiagram.png)
+![software](./img/softwareBlockDiagram.png)
 
 ## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 * Debian 계열 os
@@ -23,11 +23,13 @@
 
 * Real-Time Eye Blink Detection using Facial Landmarks(Tereza Soukupova and Jan ´ Cech외, 2016)의 방법을 따름
 
-![earMethod](./earMethod.png)
+![earMethod](./img/earMethod.png)
 
 ### Raspberry GPIO control
 
 사용자에게 가는 알림은 라즈베리파이 GPIO를 사용함.
+
+![raspberry](./img/raspberry.JPG)
 
 ## 설치 안내 (Installation Process)
 
@@ -54,9 +56,12 @@ cmake --build . --config Release
 CMakeLists.txt 파일의 project name을 sleep_detectionForRaspberry로 고쳐야 함.
 또, wiringPi 27번에 해당하는 GPIO 핀에 부저를 연결해야 함.  
 
+[!pinMap](./img/pinMap.png)
+
 ``` shell
 gpio readall //wiringPi 27번에 해당하는 BCM 넘버를 찾아야 함
 ```
+![gpio](./img/gpio.png)
 
 
 ## 팀 정보 (Team Information)
