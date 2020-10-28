@@ -6,10 +6,6 @@
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <wiringPi.h>
-#include <softTone.h>
-#define PIN_NUM 27 // gpio 16
 
 using namespace dlib;
 using namespace std;
@@ -37,10 +33,6 @@ int main()
 {
     int frameCounter = 0;
     float threshold = 0.2;
-
-    wiringPiSetup();
-    softToneCreate(PIN_NUM);
-
     try {
         cv::VideoCapture cap(0);
 
@@ -58,7 +50,7 @@ int main()
         deserialize("../shape_predictor_68_face_landmarks.dat") >> sp;
 
         // Grab and process frames until the main window is closed by the user.
-        while (1) {
+        while (!win.is_closed()) {
             // Grab a frame
             cv::Mat temp;
             if (!cap.read(temp)) {
@@ -70,6 +62,10 @@ int main()
             
             // Detect faces
             std::vector<rectangle> faces = detector(cimg);
+            //cout << "Number of faces detected: " << faces.size() << endl;
+
+            win.clear_overlay();
+            win.set_image(cimg);
             
             // Find the pose of each face.
             if (faces.size() > 0) {
@@ -95,19 +91,20 @@ int main()
                     frameCounter++;
                     if (frameCounter >= 27) {
                         cout << "SLEEP" << endl;
-                        softToneWrite(PIN_NUM, 262);
+                        win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "SLEEP"));
                     }
                     else {
-                        cout << "drowsing" << endl;
-                        softToneWrite(PIN_NUM, 131);
+                        win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "drowsing"));
                     }
                 }
                 else {
+                    win.add_overlay(dlib::image_window::overlay_rect(faces[0], rgb_pixel(255, 255, 255), "not drowsing"));
                     frameCounter = 0;
-                    softToneWrite(PIN_NUM, 0);
                 }
                 righteye.clear();
                 lefteye.clear();
+
+                win.add_overlay(render_face_detections(shape));
 
                 c = (char)waitKey(30);
                 if (c == 27)
