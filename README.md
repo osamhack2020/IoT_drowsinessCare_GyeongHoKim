@@ -11,9 +11,6 @@
 온라인해커톤으로의 전환에 따라 부대에서 잘못된 부품,전선 및 센서들을 구매하고 확인하지 못하여 라즈베리 파이 프로토타입 제작 과정 중 하드웨어 구성을 완전하게 하지 못했습니다. 아래 영상은 라즈베리가 아닌 우분투 os 노트북 환경에서 실행한 프로젝트입니다.  
 * 라즈베리 파이 부저알림 --> 얼굴을 감싸는 앵커 우측 하단에 "drowsing" 또는 "SLEEPING"으로 표시 및 터미널 출력
 * 그 외 기능 동일
-* 아래 이미지 클릭 시 시연영상링크로 이동
-
-[![시연영상](http://img.youtube.com/vi/s2uMnYTOk5w/0.jpg)](https://youtu.be/s2uMnYTOk5w)
 
 ## 기능 설계
 
@@ -87,6 +84,10 @@ gpio readall //wiringPi 27번에 해당하는 BCM 넘버를 찾아야 함
 
 ## 팀 정보 (Team Information)
 - 김경호 (rlarudgh2017@gmail.com), Github Id: GyeongHoKim
+
+## References
+ * [sleep detection](https://github.com/tahaemara/sleep-detection)
+ * [drowsiness detection](https://github.com/akshaybahadur21/Drowsiness_Detection)
 
 ## 저작권 및 사용권 정보 (Copyleft / End User License)
  * [MIT](https://github.com/osam2020-WEB/Sample-ProjectName-TeamName/blob/master/license.md)
